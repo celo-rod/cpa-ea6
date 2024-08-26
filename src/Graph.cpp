@@ -60,6 +60,7 @@ bool Graph::loadGraph (const string& filename) {
 }
 
 bool Graph::isSafe (int v, vector<int>& c, int color) {
+  // Check if the color is already assigned to an adjacent vertex
   for (int i =0; i < adj[v].size(); i++) {
     if (c[adj[v][i]] == color) {
       return false;
@@ -70,10 +71,12 @@ bool Graph::isSafe (int v, vector<int>& c, int color) {
 }
 
 bool Graph::backtrackingColoringUtil(int m, vector<int>&c, int v){
+  // Base case: If all vertices are assigned a color
   if (v == V) {
     return true;
   }
 
+  // Try all colors
   for (int color = 0; color < m; color++) {
     if (isSafe(v, c, color)) {
       c[v] = color;
@@ -105,6 +108,7 @@ vector<int> Graph::dsaturColoring () {
   set<VertexInfo, CompareVertex> pq;
   set<VertexInfo, CompareVertex>::iterator maxSatVertex;
 
+  // Initialize priority queue
   for (int i = 0; i < V; i++) {
     adjColors[i] = set<int>();
     pq.emplace(VertexInfo(0, adj[i].size(), i));
@@ -115,6 +119,7 @@ vector<int> Graph::dsaturColoring () {
     u = maxSatVertex->vertex;
     pq.erase(maxSatVertex);
 
+    // Assign the min possible color to u
     set<int> usedColors;
     for (int v : adj[u]) {
       if (c[v] != -1) {
@@ -128,6 +133,7 @@ vector<int> Graph::dsaturColoring () {
     }
     c[u] = color;
 
+    // Update saturation degree and priority queue
     for (int v : adj[u]) {
       if (c[v] == -1) {
         pq.erase(VertexInfo(adjColors[v].size(), adj[v].size(), v));
