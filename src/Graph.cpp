@@ -144,5 +144,5 @@ void Graph::printColors (vector<int> c) const {
   for (int i = 0; i < V; i++) {
     cout << "Vertex " << i << "-> Color " << c[i] << endl;
   }
-  cout << "Chromatic number: " << *max_element(c.begin(), c.end()) + 1 << endl;
+  cout << "k colors: " << *max_element(c.begin(), c.end()) + 1 << endl;
 }
